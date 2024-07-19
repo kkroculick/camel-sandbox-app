@@ -1,7 +1,18 @@
+buildscript {
+    //global framework versions
+    ext {
+        springBootVersion = '3.3.2'
+        camelVersion = '4.7.0'
+        springDependencyManagement = '1.1.6'
+        mysqlJDBC = '9.0.0'
+        hawtioSpringBoot = '4.1.0'
+    }
+}
+
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.5'
-    id 'io.spring.dependency-management' version '1.1.5'
+    id 'org.springframework.boot' version "${springBootVersion}"
+    id 'io.spring.dependency-management' version "${springDependencyManagement}"
 }
 
 group = 'org.keith'
@@ -23,13 +34,12 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom "org.apache.camel.springboot:camel-spring-boot-bom:4.6.0"
+        mavenBom "org.apache.camel.springboot:camel-spring-boot-bom:${camelVersion}"
     }
     imports {
-        mavenBom "org.springframework.boot:spring-boot-dependencies:3.2.5"
+        mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
     }
 }
-
 
 dependencies {
     //camel spring boot
@@ -46,7 +56,7 @@ dependencies {
     implementation 'org.apache.camel.springboot:camel-sql-starter'
     implementation 'org.apache.camel.springboot:camel-jdbc-starter'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'com.mysql:mysql-connector-j:8.4.0'
+    implementation "com.mysql:mysql-connector-j:${mysqlJDBC}"
     //hawt.io
     implementation 'org.apache.camel.springboot:camel-management-starter'
     implementation 'org.apache.camel.springboot:camel-spring-boot-xml-starter'
@@ -58,11 +68,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     //spring boot actuator health
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'io.hawt:hawtio-springboot:4.0.0'
+    implementation "io.hawt:hawtio-springboot:${hawtioSpringBoot}"
     //spring validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-
 
 
 

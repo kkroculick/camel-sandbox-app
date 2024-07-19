@@ -98,7 +98,7 @@ public class CamelSandboxRouter extends EndpointRouteBuilder {
         // from("direct:qq").to("stream:out")
         // to("controlbus:route?routeId=test1&action=stop&async=true");
 
-            /*    from("direct:hello")
+            /*  from("direct:hello")
                         .setBody(constant("select * from employees")).split(body())
                 .to("jdbc:empDataSource")
                         .to("stream:out");*/
@@ -128,9 +128,9 @@ public class CamelSandboxRouter extends EndpointRouteBuilder {
 
         //onException(ConnectException.class).to("stream:out");
         from("timer://timer1?period=1000")
-            .setBody(constant("select * from employees.employees"))
-            .to("jdbc:empDataSource")
-            .split().simple("${body}")
+                .setBody(constant("select * from employees.employees"))
+                .to("jdbc:empDataSource")
+                .split().simple("${body}")
                 .log("process row ${body}")
                 .process(new Processor() {
 
@@ -138,15 +138,17 @@ public class CamelSandboxRouter extends EndpointRouteBuilder {
 
                         Map<String, Object> row = xchg.getIn().getBody(Map.class);
                         System.out.println("Processing....." + row);
-                        Employee emp = new Employee();
 
+                        Employee emp = new Employee();
                         emp.setEmpNo(row.get("emp_no").toString());
                         emp.setEmpDob(row.get("birth_date").toString());
                         emp.setEmpFirstName(row.get("first_name").toString());
                         emp.setEmpLastName(row.get("last_name").toString());
                         emp.setEmpGender(row.get("gender").toString());
                         emp.setEmpHireDate(row.get("hire_date").toString());
+
                         System.out.println("Employee: " + emp);
+
                     }
 
                 })
