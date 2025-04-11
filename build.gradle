@@ -69,6 +69,8 @@ dependencies {
     implementation 'org.apache.camel.springboot:camel-spring-boot-xml-starter'
     //controlbus
     implementation 'org.apache.camel.springboot:camel-controlbus-starter'
+    //jbang camel spring\quarkus\k8
+    implementation 'org.apache.camel.springboot:camel-cli-connector-starter'
     //spring boot
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
