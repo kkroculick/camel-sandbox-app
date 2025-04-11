@@ -14,6 +14,7 @@ public class CamelSandboxRouter2 extends EndpointRouteBuilder {
     @Override
     public void configure() throws Exception {
 
+        System.out.println("route2");
         //getContext().addRoutes(new RouteBuilderA());
        //getContext().addRoutes(new RouteBuilderB());
      /*   from("timer:hello?period={{myPeriod}}").routeId("hello2")

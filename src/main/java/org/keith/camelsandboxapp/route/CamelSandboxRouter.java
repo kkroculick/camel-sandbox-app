@@ -1,10 +1,9 @@
 package org.keith.camelsandboxapp.route;
 
-import org.apache.camel.Endpoint;
-import org.apache.camel.Exchange;
-import org.apache.camel.PollingConsumer;
-import org.apache.camel.Processor;
+import org.apache.camel.*;
+import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.endpoint.EndpointRouteBuilder;
+
 import org.keith.camelsandboxapp.model.CamelSandboxBean;
 import org.keith.camelsandboxapp.model.Employee;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,7 +21,7 @@ import static org.apache.camel.builder.endpoint.StaticEndpointBuilders.stream;
 
 @Component
 public class CamelSandboxRouter extends EndpointRouteBuilder {
-
+// EndpointRouteBuilder
     @Autowired
     CamelSandboxBean AppBean;
 
@@ -35,6 +34,10 @@ public class CamelSandboxRouter extends EndpointRouteBuilder {
 
         // getContext().addRoutes(new RouteBuilderA());
         // getContext().addRoutes(new RouteBuilderB());
+
+
+        //from("mina:vm://localhost:2222").log(LoggingLevel.DEBUG, "logging");
+
 
         /*
          * from("timer:hello?period={{myPeriod}}")
@@ -69,6 +72,8 @@ public class CamelSandboxRouter extends EndpointRouteBuilder {
          * .to(sOut);
          */
 
+
+        //camel.rest.inline-routes = true
         // api
         /*
          * rest("/say")
@@ -98,10 +103,11 @@ public class CamelSandboxRouter extends EndpointRouteBuilder {
         // from("direct:qq").to("stream:out")
         // to("controlbus:route?routeId=test1&action=stop&async=true");
 
-            /*  from("direct:hello")
+        /*  from("direct:hello")
                         .setBody(constant("select * from employees")).split(body())
                 .to("jdbc:empDataSource")
-                        .to("stream:out");*/
+                        .to("stream:out");
+         */
 
         // Select Route
       /*  from("direct:select").setBody(constant("select * from employees.employees")).to("jdbc:empDataSource")
@@ -127,7 +133,7 @@ public class CamelSandboxRouter extends EndpointRouteBuilder {
 
 
         //onException(ConnectException.class).to("stream:out");
-        from("timer://timer1?period=1000")
+       /* from("timer://timer1?period=1000")
                 .setBody(constant("select * from employees.employees"))
                 .to("jdbc:empDataSource")
                 .split().simple("${body}")
@@ -153,20 +159,27 @@ public class CamelSandboxRouter extends EndpointRouteBuilder {
 
                 })
                 .to("mock:result");
+             */
+
+
+
+
+         /* from("direct:hello")
+                .setBody(constant("select * from employees")).split(body())
+                .to("jdbc:empDataSource")
+                .split().simple("${body}")
+                .log("process row ${body}");
+         */
+
+        //?outputType=StreamList")
+        //.split(body()).streaming()
+
 
     }
 
 }
 
 
-       /* from("direct:hello")
-                .setBody(constant("select * from employees")).split(body())
-                .to("jdbc:empDataSource")
-                .split().simple("${body}")
-                .log("process row ${body}");
-        */
 
-//?outputType=StreamList")
-//.split(body()).streaming()
 
 

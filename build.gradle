@@ -1,11 +1,13 @@
 buildscript {
     //global framework versions
     ext {
-        springBootVersion = '3.3.2'
-        camelVersion = '4.7.0'
-        springDependencyManagement = '1.1.6'
-        mysqlJDBC = '9.0.0'
-        hawtioSpringBoot = '4.1.0'
+        springBootVersion = '3.4.4'
+        camelVersion = '4.11.0'
+        springDependencyManagement = '1.1.7'
+        mysqlJDBC = '9.2.0'
+        hawtioSpringBoot = '4.3.0'
+        dependenciesVersionChecker = '0.52.0'
+        // apacheSSHD = '2.15.0'
     }
 }
 
@@ -13,13 +15,15 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'io.spring.dependency-management' version "${springDependencyManagement}"
+    id 'maven-publish'
+    id 'com.github.ben-manes.versions' version "${dependenciesVersionChecker}"
 }
 
 group = 'org.keith'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
+    sourceCompatibility = '21'
 }
 
 configurations {
@@ -49,9 +53,12 @@ dependencies {
     //camel dsl
     implementation 'org.apache.camel.springboot:camel-endpointdsl-starter'
     implementation 'org.apache.camel.springboot:camel-componentdsl-starter'
-    //camel rest and http
+    //camel rest and http and sftp
     implementation 'org.apache.camel.springboot:camel-rest-starter'
     implementation 'org.apache.camel.springboot:camel-platform-http-starter'
+    implementation 'org.apache.camel.springboot:camel-ftp-starter'
+    implementation 'org.apache.camel.springboot:camel-mina-starter'
+    //--implementation "org.apache.sshd:sshd-sftp:${apacheSSHD}"
     //camel sql
     implementation 'org.apache.camel.springboot:camel-sql-starter'
     implementation 'org.apache.camel.springboot:camel-jdbc-starter'
@@ -60,9 +67,8 @@ dependencies {
     //hawt.io
     implementation 'org.apache.camel.springboot:camel-management-starter'
     implementation 'org.apache.camel.springboot:camel-spring-boot-xml-starter'
-    // controlbus
+    //controlbus
     implementation 'org.apache.camel.springboot:camel-controlbus-starter'
-   
     //spring boot
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -72,7 +78,8 @@ dependencies {
     //spring validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-
+    //--implementation 'org.springframework.boot:spring-boot-starter-integration'
+    //--implementation 'org.springframework.integration:spring-integration-sftp:6.3.4'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -83,4 +90,16 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.keith.camel-sandbox-app'
+            artifactId = 'app'
+            version = '1.0.0-SNAPSHOT'
+
+            from components.java
+        }
+    }
 }
